@@ -1,0 +1,19 @@
+package css436lab4;
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+public class InputQuery {
+    private String lastName;
+    private String firstName;
+    
+	public String getLastName() {
+		return this.lastName;
+	}
+	
+	public String getFirstName() {
+		return this.firstName;
+	}
+}

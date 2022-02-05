@@ -1,0 +1,10 @@
+package example;
+import com.amazonaws.services.lambda.runtime.RequestHandler;
+import com.amazonaws.services.lambda.runtime.Context;
+
+public class HelloWorld implements RequestHandler<Integer, String> {
+	public String handleRequest(Integer myCount, Context context) {
+		System.out.println("Hello Ton");
+		return String.valueOf(myCount);
+	}
+}

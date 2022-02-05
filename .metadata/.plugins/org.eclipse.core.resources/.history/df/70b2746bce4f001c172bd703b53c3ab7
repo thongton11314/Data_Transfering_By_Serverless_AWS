@@ -1,0 +1,27 @@
+package example;
+import com.amazonaws.services.lambda.runtime.RequestHandler;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
+import com.amazonaws.services.lambda.runtime.Context;
+
+public class HelloWorld implements RequestHandler<Integer, String> {
+	
+	private AmazonS3 s3 = AmazonS3ClientBuilder
+							.standard()
+							.withCredentials(new DefaultAWSCredentialsProviderChain())
+							.build();
+    AmazonDynamoDB client = AmazonDynamoDBClientBuilder
+            .standard()
+            .withCredentials(new DefaultAWSCredentialsProviderChain())
+            .build();
+    table = new Table(client, TABLE_NAME);
+	
+	public String handleRequest(Integer myCount, Context context) {
+		System.out.println("Hello Ton");
+		System.out.println("Account ownner" + s3.getS3AccountOwner());
+		System.out.println(s3.getS3AccountOwner().getDisplayName());
+		System.out.println("Set up success");
+		return String.valueOf(myCount);
+	}
+}

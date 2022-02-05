@@ -1,0 +1,14 @@
+package css436lab4;
+
+public class InputQuery {
+    static public String lastName;
+    static public String firstName;
+
+    public String getLastName() {
+        return InputQuery.lastName;
+    }
+
+    public String getFirstName() {
+        return InputQuery.firstName;
+    }
+}

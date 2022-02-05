@@ -1,0 +1,25 @@
+package css436lab4;
+
+import com.amazonaws.services.lambda.runtime.Context;
+import com.amazonaws.services.lambda.runtime.RequestHandler;
+import java.util.Map;
+
+
+public class LambdaDelete implements RequestHandler<Object, String> {
+    
+    // Table name in AWS DynamoDB
+    public static final String TABLE_NAME = "Program4";
+    public static final String PRIMARY_KEY = "lastName";
+    public static final String SECONDARY_KEY = "firstName";
+    
+    @Override
+    public String handleRequest(Object thisNull, Context context) {
+    	context.getLogger().log("Lambda calls delete \n");
+        MainProcess process = MainProcess.build(context.getLogger());
+        if (process != null) {
+            process.setUpTable(TABLE_NAME, context.getLogger());       
+            return process.deleteData(PRIMARY_KEY, SECONDARY_KEY, context.getLogger());
+        }
+        return "Fail to delete data in table";
+    }
+}

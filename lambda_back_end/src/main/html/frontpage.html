@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<body>
+</Title>  
+
+<!--- Load/Clear data S3 from DB when open the page-->
+<button type = "button" onclick="loadData()">Load Data</button>
+<button type = "button" onclick="clearData()">Clear Data</button>
+<a href="https://i1b9biyboi.execute-api.us-west-2.amazonaws.com/production/viewtable">Table view</a>
+
+<!--- This is query form -->
+<p id="input"></p>
+<form name="queryForm">
+    Last name  : <input type="text" name="lastName" value=""/><br><br>
+    First name : <input type="text" name="firstName" value=""/><br><br>
+</form>
+<button type = "button" onclick="queryData()">Query data</button>
+
+<!--- Print out information, when load -->
+<p>[ button click information ]
+    <p>Message:</p><p id="display_message">...</p>
+    <p>Link:</p><p id="display_link">...</p>
+    <p>Status:</p><p id="display_status">...</p>
+    <p>Reponse:</p><p id="display_response">...</p>
+</p>
+
+<!--- This is main functions to load or retrieve data-->
+<script language="JavaScript">  
+
+    function clearPreviousButtonClickInformation() {
+
+        // Clear all message
+        document.getElementById("display_message").innerHTML = "...";
+        document.getElementById("display_link").innerHTML = "...";
+        document.getElementById("display_status").innerHTML = "...";
+        document.getElementById("display_response").innerHTML = "...";
+    }
+
+    function loadData() { 
+        clearPreviousButtonClickInformation();
+        var httpRequest = new XMLHttpRequest();
+        var url = "https://i1b9biyboi.execute-api.us-west-2.amazonaws.com/production/load";
+        httpRequest.open("GET", url, true);
+        httpRequest.send(null);
+        document.getElementById("display_message").innerHTML = "- Loading...";
+        httpRequest.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+               document.getElementById("display_response").innerHTML = "- " + this.responseText;
+               document.getElementById("display_message").innerHTML = "- Loaded data to DynamoDB";
+            }
+            document.getElementById("display_status").innerHTML = "- " + this.status;
+        };
+        document.getElementById("display_link").innerHTML = "- " + url;
+    }  
+
+    function clearData() {
+        clearPreviousButtonClickInformation();
+        var httpRequest = new XMLHttpRequest();
+        var url = "https://i1b9biyboi.execute-api.us-west-2.amazonaws.com/production/delete";
+        httpRequest.open("GET", url, true);
+        httpRequest.send(null);
+        document.getElementById("display_message").innerHTML = "- Deleting...";
+        httpRequest.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+               document.getElementById("display_response").innerHTML = "- " + this.responseText;
+               document.getElementById("display_message").innerHTML = "- Deleted all data from DynamoDB";
+            }
+            document.getElementById("display_status").innerHTML = "- " + this.status;
+        };
+        document.getElementById("display_link").innerHTML = "- " + url;
+    }
+
+    function queryData() {
+        clearPreviousButtonClickInformation();
+
+        // Get names
+        var lastName = document.forms["queryForm"]["lastName"].value.trim();
+        var firstName = document.forms["queryForm"]["firstName"].value.trim();
+
+        // Get data from DynamoDB
+        var param = "lastName=" + lastName + "&firstName=" + firstName;
+
+        // Create request
+        document.getElementById("display_message").innerHTML = "- Querying...";
+        var httpRequest = new XMLHttpRequest();
+        var url = "https://i1b9biyboi.execute-api.us-west-2.amazonaws.com/production/query?" + param;
+        httpRequest.open("POST", url, true);
+        httpRequest.send();
+        httpRequest.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("display_response").innerHTML = "- " + JSON.parse(this.responseText);
+                document.getElementById("display_message").innerHTML = "- Query done";
+            }
+            document.getElementById("display_status").innerHTML = "- " + this.status;
+        };
+        document.getElementById("display_link").innerHTML = "- " + url;
+    }
+</script> 
+
+</body>
+</html>

@@ -1,0 +1,5 @@
+package example;
+import com.amazonaws.*;
+public class Hello {
+	
+}

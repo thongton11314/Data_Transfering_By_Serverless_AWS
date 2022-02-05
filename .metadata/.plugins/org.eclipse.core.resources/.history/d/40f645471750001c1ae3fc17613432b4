@@ -1,0 +1,51 @@
+package css436lab4;
+
+import com.amazonaws.services.lambda.runtime.Context;
+import com.amazonaws.services.lambda.runtime.RequestHandler;
+import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
+import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
+
+public class LambdaQuery implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
+    
+    // Table name in AWS DynamoDB
+    public static final String TABLE_NAME = "Program4";
+    public static final String PRIMARY_LAST_NAME = "lastName";
+    public static final String SECONDARY_FIRST_NAME = "firstName";
+    
+    @Override
+    public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent apiGatewayProxyRequestEvent, Context context) {
+        context.getLogger().log("Lambda calls query \n");
+        APIGatewayProxyResponseEvent apiGatewayProxyResponseEvent = new APIGatewayProxyResponseEvent();
+        MainProcess process = MainProcess.build(context.getLogger());
+        
+        try {
+            String requestString = apiGatewayProxyRequestEvent.getBody();
+            JSONParser parser = new JSONParser();
+            JSONObject requestJsonObject = (JSONObject) parser.parse(requestString);
+            String requestMessage = null;
+            String responseMessage = null;
+            if (requestJsonObject != null) {
+                if (requestJsonObject.get("requestMessage") != null) {
+                    requestMessage = requestJsonObject.get("requestMessage").toString();
+                }
+            }
+            Map<String, String> responseBody = new HashMap<String, String>();
+            responseBody.put("responseMessage", requestMessage);
+            responseMessage = new JSONObject(responseBody).toJSONString();
+            generateResponse(apiGatewayProxyResponseEvent, responseMessage);
+        } catch {
+        	
+        }
+        if (process != null) {
+            process.setUpTable(TABLE_NAME, context.getLogger());
+            
+            
+            String queryData = process.queryData(request, 
+            								PRIMARY_LAST_NAME, 
+            								SECONDARY_FIRST_NAME, 
+            								context.getLogger());
+            return apiGatewayProxyResponseEvent;
+        }
+        return null;
+    }
+}

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="com.amazonaws.services.s3.AmazonS3ClientBuilder"/>
+    <fullyQualifiedTypeName name="com.amazonaws.services.s3.AmazonS3"/>
+    <fullyQualifiedTypeName name="com.amazonaws.auth.DefaultAWSCredentialsProviderChain"/>
+    <fullyQualifiedTypeName name="com.amazonaws.services.dynamodbv2.AmazonDynamoDB"/>
+    <fullyQualifiedTypeName name="com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder"/>
+    <fullyQualifiedTypeName name="java.io.InputStream"/>
+    <fullyQualifiedTypeName name="java.net.MalformedURLException"/>
+    <fullyQualifiedTypeName name="java.io.IOException"/>
+    <fullyQualifiedTypeName name="com.amazonaws.services.lambda.runtime.LambdaLogger"/>
+    <fullyQualifiedTypeName name="css436lab4.InputQuery"/>
+    <fullyQualifiedTypeName name="org.json.simple.parser.JSONParser"/>
+    <fullyQualifiedTypeName name="org.json.simple.JSONObject"/>
+    <fullyQualifiedTypeName name="org.json.simple.parser.ParseException"/>
+    <fullyQualifiedTypeName name="com.amazonaws.services.dynamodbv2.model.DeleteItemRequest"/>
+    <fullyQualifiedTypeName name="com.amazonaws.services.dynamodbv2.model.ReturnConsumedCapacity"/>
+    <fullyQualifiedTypeName name="com.amazonaws.services.dynamodbv2.document.spec.DeleteItemSpec"/>
+    <fullyQualifiedTypeName name="com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient"/>
+    <fullyQualifiedTypeName name="com.amazonaws.services.dynamodbv2.model.ReturnValue"/>
+    <fullyQualifiedTypeName name="com.amazonaws.Response"/>
+    <fullyQualifiedTypeName name="com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent"/>
+    <fullyQualifiedTypeName name="com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent"/>
+    <fullyQualifiedTypeName name="java.util.Collections"/>
+    <fullyQualifiedTypeName name="css436lab4.MainProcess"/>
+</qualifiedTypeNameHistroy>

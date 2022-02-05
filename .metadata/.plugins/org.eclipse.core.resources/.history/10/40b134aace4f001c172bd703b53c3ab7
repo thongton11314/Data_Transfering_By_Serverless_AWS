@@ -1,0 +1,21 @@
+package example;
+import com.amazonaws.services.lambda.runtime.RequestHandler;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
+import com.amazonaws.services.lambda.runtime.Context;
+
+public class HelloWorld implements RequestHandler<Integer, String> {
+	
+	public String handleRequest(Integer myCount, Context context) {
+		System.out.println("Hello Ton");
+	    AmazonDynamoDB client = AmazonDynamoDBClientBuilder
+				.standard()
+				.withCredentials(new DefaultAWSCredentialsProviderChain())
+				.build();
+		System.out.println("Set up success " + client.toString());
+		return String.valueOf(myCount);
+	}
+}

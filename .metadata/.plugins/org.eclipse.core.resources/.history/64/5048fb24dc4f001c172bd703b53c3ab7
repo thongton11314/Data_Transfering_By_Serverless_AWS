@@ -1,0 +1,28 @@
+package css436lab4;
+
+import com.amazonaws.services.lambda.runtime.Context;
+import com.amazonaws.services.lambda.runtime.LambdaLogger;
+import com.amazonaws.services.lambda.runtime.RequestHandler;
+
+public class LambdaLoad implements RequestHandler<Object, String> {
+
+	private LambdaLogger logger;
+
+    @Override
+    public String handleRequest(Object nullObject, Context context) {
+        logger.log("Lambda load called"));
+        MainProcess process = MainProcess.build(context.getLogger());
+
+        if (process != null) {
+            process.setUpTable(context.getLogger());
+            
+            boolean isLoad = process.loadData(context.getLogger());
+
+            // Invoke AWS lambda query function in here
+            if (isLoad) {
+                return "Load Successful";
+            }
+        }
+        return "Load Fail";
+    }
+}

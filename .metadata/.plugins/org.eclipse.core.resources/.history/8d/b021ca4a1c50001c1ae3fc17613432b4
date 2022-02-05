@@ -1,0 +1,43 @@
+package css436lab4;
+
+import com.amazonaws.services.lambda.runtime.Context;
+import com.amazonaws.services.lambda.runtime.RequestHandler;
+import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
+import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+public class LambdaQuery implements RequestHandler<Map<String, String>, APIGatewayProxyResponseEvent> {
+    
+    // Table name in AWS DynamoDB
+    public static final String TABLE_NAME = "Program4";
+    public static final String PRIMARY_LAST_NAME = "lastName";
+    public static final String SECONDARY_FIRST_NAME = "firstName";
+    
+    @Override
+    public APIGatewayProxyResponseEvent handleRequest(Map<String, String> request, Context context) {
+    	context.getLogger().log("Lambda calls query \n");
+        MainProcess process = MainProcess.build(context.getLogger());
+        if (process != null) {
+            process.setUpTable(TABLE_NAME, context.getLogger());       
+            String queryData = process.queryData(request, 
+            								PRIMARY_LAST_NAME, 
+            								SECONDARY_FIRST_NAME, 
+            								context.getLogger());
+            								
+            return queryData;
+        }
+        return null;
+    }
+    
+    private void generateResponse(APIGatewayProxyResponseEvent apiGatewayProxyResponseEvent, String requestMessage) {
+        apiGatewayProxyResponseEvent.setHeaders(Collections.singletonMap("timeStamp", String.valueOf(System.currentTimeMillis())));
+        apiGatewayProxyResponseEvent.setStatusCode(200);
+        apiGatewayProxyResponseEvent.setBody(requestMessage);
+    }
+}

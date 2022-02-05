@@ -1,0 +1,30 @@
+package css436lab4;
+
+import com.amazonaws.services.lambda.runtime.Context;
+import com.amazonaws.services.lambda.runtime.RequestHandler;
+import java.util.Map;
+
+
+public class LambdaQuery implements RequestHandler<Map<String, String>, String> {
+    
+    // Table name in AWS DynamoDB
+    public static final String TABLE_NAME = "Program4";
+    public static final String PRIMARY_LAST_NAME = "lastName";
+    public static final String SECONDARY_FIRST_NAME = "firstName";
+    
+    @Override
+    public String handleRequest(Map<String, String> request, Context context) {
+    	context.getLogger().log("Lambda calls query \n");
+        MainProcess process = MainProcess.build(context.getLogger());
+        if (process != null) {
+            process.setUpTable(TABLE_NAME, context.getLogger());       
+            String queryData = process.queryData(request, 
+            								PRIMARY_LAST_NAME, 
+            								SECONDARY_FIRST_NAME, 
+            								context.getLogger());
+            								
+            return queryData;
+        }
+        return "Empty";
+    }
+}

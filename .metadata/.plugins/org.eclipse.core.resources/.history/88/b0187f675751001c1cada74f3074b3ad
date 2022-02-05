@@ -1,0 +1,38 @@
+package css436lab4;
+
+import java.util.Collections;
+import java.util.Map;
+
+import com.amazonaws.services.lambda.runtime.Context;
+import com.amazonaws.services.lambda.runtime.RequestHandler;
+import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
+import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
+
+public class LambdaProxy implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
+    
+	@Override
+    public APIGatewayProxyResponseEvent handleRequest(final APIGatewayProxyRequestEvent input, final Context context) {
+        return new APIGatewayProxyResponseEvent()
+                .withStatusCode(200)
+                .withHeaders(Collections.emptyMap())
+                .withBody("{\"input\":\"" + input.getBody() + "\"}");
+    }
+	
+    // Table name in AWS DynamoDB
+    public static final String TABLE_NAME = "Program4";
+    public static final String PRIMARY_LAST_NAME = "lastName";
+    public static final String SECONDARY_FIRST_NAME = "firstName";
+    
+    public String handleRequest(Map<String, String> request, Context context) {
+    	context.getLogger().log("Lambda calls query \n");
+        MainProcess process = MainProcess.build(context.getLogger());
+        if (process != null) {
+            process.setUpTable(TABLE_NAME, context.getLogger());       
+            return process.queryData(request, 
+					PRIMARY_LAST_NAME, 
+					SECONDARY_FIRST_NAME, 
+					context.getLogger());
+        }
+        return "Fail to query the data in table";
+    }
+}
